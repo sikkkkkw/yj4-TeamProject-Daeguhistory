@@ -1,6 +1,7 @@
 import express from 'express';
 import db from '../db.js';
 import { v4 as uuidv4 } from 'uuid';
+import bcrypt from 'bcrypt';
 
 const userRouter = express.Router();
 
@@ -10,6 +11,8 @@ userRouter.post('/login', async (req, res) => {
 
 userRouter.post('/register', async (req, res) => {
     const { id, password, name, email, phone } = req.body;
+    const encryptPassword = await bcrypt.hash(password, 8);
+
     const queryCheckId = 'SELECT user_id from users WHERE user_id = ?';
     const resultCheckId = await db.execute(queryCheckId, [id]).then((result) => result[0][0]);
     if (resultCheckId) {
@@ -24,7 +27,7 @@ userRouter.post('/register', async (req, res) => {
 
     const queryRegister =
         'INSERT INTO users(user_no, user_id, user_password, user_name, user_email, user_phone, user_socialtype) VALUES (?,?,?,?,?,?,?)';
-    await db.execute(queryRegister, [uuidv4(), id, password, name, email, phone, 'normal']),
+    await db.execute(queryRegister, [uuidv4(), id, encryptPassword, name, email, phone, 'normal']),
         res.status(201).json({ status: 'success', message: '회원가입 완료' });
 });
 
