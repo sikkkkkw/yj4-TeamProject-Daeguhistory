@@ -1,6 +1,7 @@
 import db from '../db.js';
 import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 // 로그인
 export const loginUser = async (req, res) => {
@@ -8,20 +9,26 @@ export const loginUser = async (req, res) => {
         const { id, password } = req.body;
         const queryLogin = 'SELECT user_id, user_password FROM users WHERE user_id = ?';
         const result = await db.execute(queryLogin, [id]).then((result) => result[0][0]);
-        const isPasswordCorret = await bcrypt.compare(password, result.user_password);
 
         if (!result) {
             return res.status(401).json({ status: 'fail', message: '아이디 또는 비밀번호를 확인해주세요.' });
         }
 
+        const isPasswordCorret = await bcrypt.compare(password, result.user_password);
         if (!isPasswordCorret) {
             return res.status(401).json({ status: 'fail', message: '아이디 또는 비밀번호를 확인해주세요.' });
         }
-        // if (password !== result.user_password) {
-        //     return res.status(401).json({ status: 'fail', message: '아이디 또는 비밀번호를 확인해주세요.' });
-        // }
 
-        res.status(200).json({ status: 'sucess', message: '성공' });
+        const token = jwt.sign({ no: result.user_no }, process.env.JWT_SECRET_KEY, {
+            expiresIn: process.env.JWT_EXPIRE,
+        });
+        res.status(200).json({
+            status: 'sucess',
+            message: '성공',
+            data: {
+                token,
+            },
+        });
     } catch (err) {
         console.log(err);
     }
