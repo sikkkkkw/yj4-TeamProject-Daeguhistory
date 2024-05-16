@@ -1,0 +1,155 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "title": "API Documentation",
+      "version": "1.0.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/v2",
+    "schemes": [
+      "http"
+    ],
+    "paths": {
+      "/api/login": {
+        "post": {
+          "summary": "로그인",
+          "description": "Performs user login",
+          "parameters": [
+            {
+              "name": "username",
+              "in": "formData",
+              "required": true,
+              "type": "string",
+              "description": "Username for login"
+            },
+            {
+              "name": "password",
+              "in": "formData",
+              "required": true,
+              "type": "string",
+              "description": "Password for login"
+            }
+            
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful login",
+              "schema": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                    "type": "string",
+                    "example":  "sucess"
+                  },
+                  "message": {
+                    "type": "string",
+                    "example":"성공"
+                  },
+                  "data": {
+                    "type": "string",
+                    "example": "{token}"
+                  }
+                }
+              }
+            },
+            "401": {
+                "description": "Successful login",
+                "example": "아이디 또는 비밀번호를 확인해주세요."
+            }
+          }
+        }
+      },
+      "/api/register": {
+        "post": {
+          "summary": "회원가입",
+          "description": "Creates a new course",
+          "parameters": [
+            {
+              "name": "courseName",
+              "in": "formData",
+              "required": true,
+              "type": "string",
+              "description": "Name of the course"
+            },
+            {
+              "name": "courseDescription",
+              "in": "formData",
+              "required": false,
+              "type": "string",
+              "description": "Description of the course"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful login",
+              "schema": {
+                "type": "object",
+                "properties": {
+                    "status":  {
+                    "type": "string",
+                    "example":  "sucess"
+                  },
+                  "user_password": {
+                    "type": "string",
+                    "example":  "회원가입 완료"
+
+                  },
+                  "user_name": {
+                    "type": "string",
+                    "description": "Authentication token"
+                  },
+                  "user_phone": {
+                    "type": "string",
+                    "description": "Authentication token"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Invalid credentials"
+            }
+          }
+        }
+      },
+      "/api/course": {
+        "post": {
+          "summary": "코스",
+          "description": "Creates a new course",
+          "parameters": [
+            {
+              "name": "courseName",
+              "in": "formData",
+              "required": true,
+              "type": "string",
+              "description": "Name of the course"
+            },
+            {
+              "name": "courseDescription",
+              "in": "formData",
+              "required": false,
+              "type": "string",
+              "description": "Description of the course"
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Course created",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "courseId": {
+                    "type": "string",
+                    "description": "ID of the created course"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid input data"
+            }
+          }
+        }
+      }
+    }
+  }
+  
