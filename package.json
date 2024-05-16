@@ -9,6 +9,7 @@
         "dev": "nodemon src/server.js",
         "build": "babel src -d build",
         "test": "echo \"Error: no test specified\" && exit 1"
+        
     },
     "author": "",
     "license": "ISC",
