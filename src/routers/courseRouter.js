@@ -1,8 +1,9 @@
 import express from 'express';
 import { getCourses } from '../controllers/courseController.js';
+import { notNeededAuth } from '../middleware/auth.js';
 
-const userRouter = express.Router();
+const courseRouter = express.Router();
 
-userRouter.post('/course', getCourses);
+courseRouter.get('/course', notNeededAuth, getCourses);
 
-export default userRouter;
+export default courseRouter;
