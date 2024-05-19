@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken';
 export const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
-        const queryLogin = 'SELECT user_email, user_password FROM users WHERE user_email = ?';
+        const queryLogin = 'SELECT user_no, user_email, user_password FROM users WHERE user_email = ?';
         const result = await db.execute(queryLogin, [email]).then((result) => result[0][0]);
 
         if (!result) {
