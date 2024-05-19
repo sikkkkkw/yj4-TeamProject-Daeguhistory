@@ -1,9 +1,11 @@
 import express from 'express';
-import { getCourses } from '../controllers/courseController.js';
-import { notNeededAuth } from '../middleware/auth.js';
+import { getCourses, qrStamp } from '../controllers/courseController.js';
+import { authenticationRequired } from '../middleware/auth.js';
+
 
 const courseRouter = express.Router();
 
-courseRouter.get('/course', notNeededAuth, getCourses);
+courseRouter.post('/course/list',authenticationRequired, getCourses);
+courseRouter.post('/course/qr',authenticationRequired,qrStamp)
 
 export default courseRouter;

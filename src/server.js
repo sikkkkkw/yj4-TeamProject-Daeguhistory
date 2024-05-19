@@ -10,14 +10,12 @@ const PORT = 8080;
 app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(express.json());
 
-app.use('/api', userRouter, courseRouter);
+app.use('/api', userRouter);
+app.use('/api', courseRouter);
 app.get('/', (req, res) => {
     res.send('하이');
 });
-app.post('/test', (req, res) => {
-    res.send('포스트 성공');
-    console.log(req.body);
-});
+
 
 app.listen(PORT, () => {
     console.log(`http://localhost:${PORT}`);
