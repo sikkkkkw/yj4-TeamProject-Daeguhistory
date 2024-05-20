@@ -109,8 +109,52 @@ export const registerUser = async (req, res) => {
 };
 
 // 로그인된 유저 정보
-export const profileUser= async(req, res)=>{
+export const getprofileUser = async (req, res)=>{
     const user = req.user;
-    res.send(user.user_name);
+    // 사용자 정보 조회
+    const query = 'SELECT user_email, user_name, user_phone FROM users WHERE user_no = ?';
+    const userInfo = await db.execute(query, [user.user_no]).then(result => result[0][0]);
 
-} 
+    if (!userInfo) {
+        return res.status(404).json({ status: 'fail', message: '사용자를 찾을 수 없습니다.' });
+    }else{
+        res.status(200).json({ status: 'success', message: '프로필 불러오기', userInfo  });
+    }
+}
+
+// 로그인된 유저 업데이트
+export const profileUpdata = async (req, res) => {
+    try {
+        const user = req.user;
+        const { email, name, phone } = req.body;
+        
+
+        // 이메일 유효성 검사
+        if (email && !isValidEmail(email)) {
+            return res.status(400).json({ status: 'fail', message: '유효하지 않은 이메일 형식입니다.' });
+        }
+
+        // 이메일 중복 확인 (새 이메일이 기존 이메일과 다른 경우에만)
+        if (email && email !== userInfo.user_email) {
+            const queryCheckEmail = 'SELECT user_email FROM users WHERE user_email = ?';
+            const resultCheckEmail = await db.execute(queryCheckEmail, [email]).then(result => result[0][0]);
+            if (resultCheckEmail) {
+                return res.status(409).json({ status: 'fail', message: '중복된 이메일 입니다.' });
+            }
+        }
+
+        // 업데이트할 값이 없으면 기존 값 사용
+        const newEmail = email || userInfo.user_email;
+        const newName = name || userInfo.user_name;
+        const newPhone = phone || userInfo.user_phone;
+
+        const userUpdate = 'UPDATE users SET user_email = ?, user_name = ?, user_phone = ? WHERE user_no = ?';
+        await db.execute(userUpdate, [newEmail, newName, newPhone, user.user_no]);
+        
+        res.status(200).json({ status: 'success', message: '프로필 업데이트 성공', userInfo: { email: newEmail, name: newName, phone: newPhone } });
+        
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ status: 'fail', message: '서버 에러' });
+    }
+}
