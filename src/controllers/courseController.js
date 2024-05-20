@@ -3,8 +3,6 @@ import db from '../db.js';
 export const getCourses = async (req, res) => {
     const user = req.user.user_no; 
     
-    
-
     try {
         const query = `
         SELECT c.*, IF(uc.user_courses_no IS NOT NULL, 1, 0) AS visited
@@ -29,7 +27,7 @@ export const qrStamp = async (req, res)=>{
     const { qrCode } = req.body;
 
     try {
-        const query = 'SELECT course_no FROM course WHERE course_qr = ?';
+        const query = 'SELECT course_no FROM course WHERE course_name = ?';
         const qrCheckNo = await db.execute(query, [qrCode]).then((result) => result[0][0]);
 
         if (!qrCheckNo) {
