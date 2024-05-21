@@ -1,156 +1,214 @@
 {
     "swagger": "2.0",
     "info": {
-        "title": "API Documentation",
+        "title": "DAEGU HISTORY API",
         "version": "1.0.0"
     },
     "host": "localhost:8080",
-    "basePath": "/v2",
     "schemes": ["http"],
     "paths": {
-        "/api/login": {
+        "/api/user/login": {
             "post": {
                 "summary": "로그인",
                 "description": "사용자가 로그인할 수 있습니다.",
                 "parameters": [
                     {
-                        "name": "email",
-                        "in": "formData",
+                        "in": "body",
+                        "name": "body",
                         "required": true,
-                        "type": "string",
-                        "description": "로그인에 사용할 이메일 주소"
-                    },
-                    {
-                        "name": "password",
-                        "in": "formData",
-                        "required": true,
-                        "type": "string",
-                        "description": "로그인에 사용할 비밀번호"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "로그인 성공",
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "status": {
+                                "email": {
                                     "type": "string",
-                                    "example": "success"
+                                    "description": "로그인에 사용할 이메일 주소"
                                 },
-                                "message": {
+                                "password": {
                                     "type": "string",
-                                    "example": "성공"
-                                },
-                                "data": {
-                                    "type": "string",
-                                    "example": "{token}"
+                                    "description": "로그인에 사용할 비밀번호"
                                 }
-                            }
+                            },
+                            "required": ["email", "password"]
                         }
-                    },
-                    "401": {
-                        "description": "이메일 또는 비밀번호를 확인해주세요."
                     }
+                ],
+                "responses": {
                 }
             }
         },
-        "/api/register": {
+        "/api/user/register": {
             "post": {
                 "summary": "회원가입",
                 "description": "새로운 사용자를 등록합니다.",
                 "parameters": [
                     {
-                        "name": "email",
-                        "in": "formData",
+                        "in": "body",
+                        "name": "body",
                         "required": true,
-                        "type": "string",
-                        "description": "사용자의 이메일 주소"
-                    },
-                    {
-                        "name": "password",
-                        "in": "formData",
-                        "required": true,
-                        "type": "string",
-                        "description": "사용자의 비밀번호"
-                    },
-                    {
-                        "name": "name",
-                        "in": "formData",
-                        "required": true,
-                        "type": "string",
-                        "description": "사용자의 이름"
-                    },
-                    {
-                        "name": "phone",
-                        "in": "formData",
-                        "required": true,
-                        "type": "string",
-                        "description": "사용자의 전화번호"
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "회원가입 성공",
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "status": {
+                                "email": {
                                     "type": "string",
-                                    "example": "success"
+                                    "description": "회원가입에 사용할 이메일 주소"
                                 },
-                                "message": {
+                                "password": {
                                     "type": "string",
-                                    "example": "회원가입 완료"
+                                    "description": "회원가입에 사용할 비밀번호"
+                                },
+                                "name": {
+                                    "type": "string",
+                                    "description": "회원가입에 사용할 이름"
+                                },
+                                "phone": {
+                                    "type": "string",
+                                    "description": "회원가입에 사용할 전화번호"
                                 }
-                            }
+                            },
+                            "required": ["email", "password","name","phone"]
                         }
-                    },
-                    "400": {
-                        "description": "유효하지 않은 이메일 형식입니다."
-                    },
-                    "409": {
-                        "description": "중복된 이메일 입니다."
                     }
+                ],
+                "responses": {
+
                 }
             }
         },
-        "/api/course": {
+        "/api/user/update": {
             "post": {
-                "summary": "코스",
-                "description": "Creates a new course",
+                "summary": "업데이트",
+                "description": "로그인된 유저 정보 수정",
                 "parameters": [
                     {
-                        "name": "courseName",
-                        "in": "formData",
+                        "name": "Authorization",
+                        "in": "header",
                         "required": true,
                         "type": "string",
-                        "description": "Name of the course"
+                        "description": "Bearer {accessToken}"
                     },
                     {
-                        "name": "courseDescription",
-                        "in": "formData",
-                        "required": false,
-                        "type": "string",
-                        "description": "Description of the course"
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Course created",
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "courseId": {
+                                "email": {
                                     "type": "string",
-                                    "description": "ID of the created course"
+                                    "description": "회원가입에 사용할 이메일 주소"
+                                },
+                                "name": {
+                                    "type": "string",
+                                    "description": "회원가입에 사용할 이름"
+                                },
+                                "phone": {
+                                    "type": "string",
+                                    "description": "회원가입에 사용할 전화번호"
                                 }
-                            }
+                            },
+                            "required": ["email","name","phone"]
                         }
-                    },
-                    "400": {
-                        "description": "Invalid input data"
                     }
+                ],
+                "responses": {
+                }
+            }
+        },
+        "/api/user/profile": {
+            "get": {
+                "summary": "유저 정보",
+                "description": "로그인된 유저 정보 불러오기",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true,
+                        "type": "string",
+                        "description": "Bearer {accessToken}"
+                    }
+                ],
+                "responses": {
+                }
+            }
+        },
+        "/api/course/list": {
+            "post": {
+                "summary": "코스리스트",
+                "description": "유저 방문 코스 리스트",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true,
+                        "type": "string",
+                        "description": "Bearer {accessToken}"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "course_tour": {
+                                    "type": "string",
+                                    "description": "유저가 방문할 투어"
+                                }
+                            },
+                            "required": ["course_tour"]
+                        }
+                    }
+                ],
+                "responses": {
+                }
+            }
+        },
+        "/api/course/qr": {
+            "post": {
+                "summary": "스탬프",
+                "description": "유저 투어 방문확인",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true,
+                        "type": "string",
+                        "description": "Bearer {accessToken}"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "qrCode": {
+                                    "type": "string",
+                                    "description": "유저가 방문한 투어"
+                                }
+                            },
+                            "required": ["qrCode"]
+                        }
+                    }
+                ],
+                "responses": {
+                }
+            }
+        },
+        "/api/oauth/token": {
+            "post": {
+                "summary": "토큰",
+                "description": "토큰 재발급",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true,
+                        "type": "string",
+                        "description": "Bearer {refreshToken}"
+                    }
+                ],
+                "responses": {
                 }
             }
         }
