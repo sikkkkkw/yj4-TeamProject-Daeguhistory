@@ -2,26 +2,23 @@ import db from '../db.js';
 
 export const getCourses = async (req, res) => {
     const user = req.user.user_no; 
+    const { course_tour } = req.body;
     
     try {
         const query = `
         SELECT c.*, IF(uc.user_courses_no IS NOT NULL, 1, 0) AS visited
             FROM course c 
-            LEFT JOIN users_course uc ON c.course_no = uc.course_no AND uc.user_no = ?
+            LEFT JOIN users_course uc ON c.course_no = uc.course_no AND uc.user_no = ? WHERE c.course_tour = ?
         `;
-        const courses = await db.execute(query, [user]).then((result) => result[0]);
+        const courses = await db.execute(query, [user, course_tour]).then((result) => result[0]);
         
         return res.status(200).json({ status: 'success', message: '유저 방문 코스 리스트', data: courses });
     } catch (err) {
-        console.error('Database Error:', err);
-        res.status(500).json({
-            status: 'error',
-            message: 'Database operation failed',
-        });
+        res.status(500).json({ status: 'fail', message: '서버 에러'});
     }
 };
 
-
+// 스탬프
 export const qrStamp = async (req, res)=>{
     const user = req.user.user_no;   
     const { qrCode } = req.body;
@@ -47,6 +44,6 @@ export const qrStamp = async (req, res)=>{
 
 
     } catch (err) {
-        res.status(500).json({ status: 'error', message: 'DB 에러' });
+        res.status(500).json({ status: 'error', message: '서버 에러' });
     }
 }
