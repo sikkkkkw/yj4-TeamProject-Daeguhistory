@@ -7,6 +7,7 @@ import jwt from 'jsonwebtoken';
 export const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
+
         const queryLogin = 'SELECT user_no, user_email, user_password FROM users WHERE user_email = ?';
         const result = await db.execute(queryLogin, [email]).then((result) => result[0][0]);
 
@@ -101,7 +102,7 @@ export const registerUser = async (req, res) => {
         const queryStoreRefreshToken = 'INSERT INTO refresh_tokens (token, user_no) VALUES (?, ?)';
         await db.execute(queryStoreRefreshToken, [refreshToken, user_no]);
 
-        res.status(201).json({ status: 'success', message: '회원가입 완료', accessToken, refreshToken });
+        res.status(201).json({ status: 'success', message: '회원가입 완료', data: {accessToken, refreshToken} });
     } catch (err) {
         console.log(err);
         res.status(500).json({ status: 'fail', message: '서버 에러' });
@@ -110,7 +111,9 @@ export const registerUser = async (req, res) => {
 
 // 로그인된 유저 정보
 export const getprofileUser = async (req, res)=>{
-    const user = req.user;
+    try{
+        const user = req.user;
+
     // 사용자 정보 조회
     const query = 'SELECT user_email, user_name, user_phone FROM users WHERE user_no = ?';
     const userInfo = await db.execute(query, [user.user_no]).then(result => result[0][0]);
@@ -118,8 +121,13 @@ export const getprofileUser = async (req, res)=>{
     if (!userInfo) {
         return res.status(404).json({ status: 'fail', message: '사용자를 찾을 수 없습니다.' });
     }else{
-        res.status(200).json({ status: 'success', message: '프로필 불러오기', userInfo  });
+        res.status(200).json({ status: 'success', message: '프로필 불러오기', userInfo });
     }
+    }catch (err) {
+        console.log(err);
+        res.status(500).json({ status: 'fail', message: '서버 에러' });
+    }
+    
 }
 
 // 로그인된 유저 업데이트
@@ -135,7 +143,7 @@ export const profileUpdata = async (req, res) => {
         }
 
         // 이메일 중복 확인 (새 이메일이 기존 이메일과 다른 경우에만)
-        if (email && email !== userInfo.user_email) {
+        if (email && email !== user.user_email) {
             const queryCheckEmail = 'SELECT user_email FROM users WHERE user_email = ?';
             const resultCheckEmail = await db.execute(queryCheckEmail, [email]).then(result => result[0][0]);
             if (resultCheckEmail) {
@@ -144,14 +152,14 @@ export const profileUpdata = async (req, res) => {
         }
 
         // 업데이트할 값이 없으면 기존 값 사용
-        const newEmail = email || userInfo.user_email;
-        const newName = name || userInfo.user_name;
-        const newPhone = phone || userInfo.user_phone;
+        const newEmail = email || user.user_email;
+        const newName = name || user.user_name;
+        const newPhone = phone || user.user_phone;
 
         const userUpdate = 'UPDATE users SET user_email = ?, user_name = ?, user_phone = ? WHERE user_no = ?';
         await db.execute(userUpdate, [newEmail, newName, newPhone, user.user_no]);
         
-        res.status(200).json({ status: 'success', message: '프로필 업데이트 성공', userInfo: { email: newEmail, name: newName, phone: newPhone } });
+        res.status(200).json({ status: 'success', message: '프로필 업데이트 성공', data: { email: newEmail, name: newName, phone: newPhone } });
         
     } catch (err) {
         console.log(err);
