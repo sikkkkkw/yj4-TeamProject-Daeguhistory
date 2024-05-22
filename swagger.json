@@ -196,7 +196,7 @@
             }
         },
         "/api/oauth/token": {
-            "post": {
+            "get": {
                 "summary": "토큰",
                 "description": "토큰 재발급",
                 "parameters": [
