@@ -1,0 +1,53 @@
+name: Deploy to cloudtype
+on:
+  push:
+    branches:
+      - master
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Connect deploy key
+        uses: cloudtype-github-actions/connect@v1
+        with:
+          token: ${{ secrets.CLOUDTYPE_TOKEN }}
+          ghtoken: ${{ secrets.GHP_TOKEN }}
+      - name: Deploy
+        uses: cloudtype-github-actions/deploy@v1
+        with:
+          token: ${{ secrets.CLOUDTYPE_TOKEN }}
+          project: ckc9292/yj4
+          stage: main
+          yaml: |
+            name: yj4-teamproject-daeguhistory
+            app: node@18
+            options:
+              env:
+                - name: NODE_ENV
+                  value: production
+                - name: DB_HOST
+                  value: svc.sel5.cloudtype.app
+                - name: DB_PORT
+                  value: "32368"
+                - name: DB_USER
+                  value: root
+                - name: DB_PASSWORD
+                  value: root
+                - name: DB_DATABASE
+                  value: DB_data
+                - name: JWT_SECRET_KEY
+                  value: daegu
+                - name: JWT_EXPIRE
+                  value: 10d
+                - name: JWT_REFRESH_SECRET_KEY
+                  value: History
+                - name: JWT_REFRESH_EXPIRE
+                  value: 1h
+              ports: "8080"
+              start: npm run dev
+            context:
+              git:
+                url: git@github.com:${{ github.repository }}.git
+                ref: ${{ github.ref }}
