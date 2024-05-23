@@ -114,6 +114,23 @@
                 }
             }
         },
+        "/api/user/delete": {
+            "delete": {
+                "summary": "유저 삭제",
+                "description": "로그인된 유저 삭제",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true,
+                        "type": "string",
+                        "description": "Bearer {accessToken}"
+                    }
+                ],
+                "responses": {
+                }
+            }
+        },
         "/api/user/profile": {
             "get": {
                 "summary": "유저 정보",
@@ -132,7 +149,7 @@
             }
         },
         "/api/course/list": {
-            "post": {
+            "get": {
                 "summary": "코스리스트",
                 "description": "유저 방문 코스 리스트",
                 "parameters": [
@@ -144,20 +161,12 @@
                         "description": "Bearer {accessToken}"
                     },
                     {
-                        "in": "body",
-                        "name": "body",
+                        "name": "course_tour",
+                        "in": "query",
                         "required": true,
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "course_tour": {
-                                    "type": "string",
-                                    "description": "유저가 방문할 투어"
-                                }
-                            },
-                            "required": ["course_tour"]
-                        }
-                    }
+                        "type": "string",
+                        "description": "유저가 방문할 투어"
+                      }
                 ],
                 "responses": {
                 }
