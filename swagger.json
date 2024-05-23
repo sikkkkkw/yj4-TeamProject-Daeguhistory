@@ -75,7 +75,7 @@
             }
         },
         "/api/user/update": {
-            "post": {
+            "put": {
                 "summary": "업데이트",
                 "description": "로그인된 유저 정보 수정",
                 "parameters": [

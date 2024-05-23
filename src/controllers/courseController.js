@@ -2,7 +2,7 @@ import db from '../db.js';
 
 export const getCourses = async (req, res) => {
     const user = req.user.user_no; 
-    const { course_tour } = req.body;
+    const { course_tour } = req.query;
     
     try {
         const query = `
