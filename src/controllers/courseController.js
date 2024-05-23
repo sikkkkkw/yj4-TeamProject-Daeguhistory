@@ -1,12 +1,12 @@
 import db from '../db.js';
 
+//투어 리스트 정보 
 export const getCourses = async (req, res) => {
     const user = req.user.user_no; 
     const { course_tour } = req.query;
-    
     try {
         const query = `
-        SELECT c.*, IF(uc.user_courses_no IS NOT NULL, 1, 0) AS visited
+        SELECT c.course_name, c.course_latitude, c.course_longitude, IF(uc.user_courses_no IS NOT NULL, 1, 0) AS visited
             FROM course c 
             LEFT JOIN users_course uc ON c.course_no = uc.course_no AND uc.user_no = ? WHERE c.course_tour = ?
         `;
@@ -17,6 +17,25 @@ export const getCourses = async (req, res) => {
         res.status(500).json({ status: 'fail', message: '서버 에러'});
     }
 };
+
+// 코스 디테일 정보
+export const getCourseDeatil = async (req, res) => {
+    const user = req.user.user_no; 
+    const { course_name } = req.query;
+    try {
+        const query = `
+        SELECT c.*, IF(uc.user_courses_no IS NOT NULL, 1, 0) AS visited
+            FROM course c 
+            LEFT JOIN users_course uc ON c.course_no = uc.course_no AND uc.user_no = ? WHERE c.course_name = ?
+        `;
+        
+        const courseDetail = await db.execute(query, [user, course_name]).then((result) => result[0]);
+        console.log(courseDetail);
+        return res.status(200).json({ status: 'success', message: '유저 방문 코스 리스트', data: courseDetail });
+    } catch(err) {
+
+    }
+}
 
 // 스탬프
 export const qrStamp = async (req, res)=>{
