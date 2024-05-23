@@ -9,8 +9,8 @@
     "paths": {
         "/api/user/login": {
             "post": {
-                "summary": "로그인",
-                "description": "사용자가 로그인할 수 있습니다.",
+                "summary": "사용자 로그인",
+                "description": "이 API는 사용자가 이메일과 비밀번호를 통해 시스템에 로그인할 수 있게 합니다.",
                 "parameters": [
                     {
                         "in": "body",
@@ -38,8 +38,8 @@
         },
         "/api/user/register": {
             "post": {
-                "summary": "회원가입",
-                "description": "새로운 사용자를 등록합니다.",
+                "summary": "사용자 회원가입",
+                "description": "이 API는 새로운 사용자를 등록합니다. 사용자는 이메일, 비밀번호, 이름, 전화번호를 제공해야 합니다.",
                 "parameters": [
                     {
                         "in": "body",
@@ -65,7 +65,7 @@
                                     "description": "회원가입에 사용할 전화번호"
                                 }
                             },
-                            "required": ["email", "password","name","phone"]
+                            "required": ["email", "password", "name", "phone"]
                         }
                     }
                 ],
@@ -76,8 +76,8 @@
         },
         "/api/user/update": {
             "put": {
-                "summary": "업데이트",
-                "description": "로그인된 유저 정보 수정",
+                "summary": "사용자 정보 수정",
+                "description": "이 API는 로그인된 사용자의 정보를 수정합니다. 수정 가능한 정보는 이메일, 이름, 전화번호입니다.",
                 "parameters": [
                     {
                         "name": "Authorization",
@@ -95,18 +95,18 @@
                             "properties": {
                                 "email": {
                                     "type": "string",
-                                    "description": "회원가입에 사용할 이메일 주소"
+                                    "description": "수정할 이메일 주소"
                                 },
                                 "name": {
                                     "type": "string",
-                                    "description": "회원가입에 사용할 이름"
+                                    "description": "수정할 이름"
                                 },
                                 "phone": {
                                     "type": "string",
-                                    "description": "회원가입에 사용할 전화번호"
+                                    "description": "수정할 전화번호"
                                 }
                             },
-                            "required": ["email","name","phone"]
+                            "required": ["email", "name", "phone"]
                         }
                     }
                 ],
@@ -116,8 +116,8 @@
         },
         "/api/user/delete": {
             "delete": {
-                "summary": "유저 삭제",
-                "description": "로그인된 유저 삭제",
+                "summary": "사용자 계정 삭제",
+                "description": "이 API는 로그인된 사용자의 계정을 삭제합니다.",
                 "parameters": [
                     {
                         "name": "Authorization",
@@ -133,8 +133,8 @@
         },
         "/api/user/profile": {
             "get": {
-                "summary": "유저 정보",
-                "description": "로그인된 유저 정보 불러오기",
+                "summary": "사용자 정보 조회",
+                "description": "이 API는 로그인된 사용자의 정보를 불러옵니다.",
                 "parameters": [
                     {
                         "name": "Authorization",
@@ -150,8 +150,8 @@
         },
         "/api/course/list": {
             "get": {
-                "summary": "코스리스트",
-                "description": "유저 방문 코스 리스트",
+                "summary": "사용자 투어 목록 조회",
+                "description": "이 API는 사용자가 방문할 투어 목록을 조회합니다.",
                 "parameters": [
                     {
                         "name": "Authorization",
@@ -165,8 +165,32 @@
                         "in": "query",
                         "required": true,
                         "type": "string",
-                        "description": "유저가 방문할 투어"
-                      }
+                        "description": "사용자가 방문할 투어"
+                    }
+                ],
+                "responses": {
+                }
+            }
+        },
+        "/api/course/deatil": {
+            "get": {
+                "summary": "사용자 코스 디테일 조회",
+                "description": "이 API는 사용자가 방문한 코스 목록을 조회합니다.",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true,
+                        "type": "string",
+                        "description": "Bearer {accessToken}"
+                    },
+                    {
+                        "name": "course_name",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "description": "사용자가 방문한 투어의 이름"
+                    }
                 ],
                 "responses": {
                 }
@@ -174,8 +198,8 @@
         },
         "/api/course/qr": {
             "post": {
-                "summary": "스탬프",
-                "description": "유저 투어 방문확인",
+                "summary": "투어 방문 확인",
+                "description": "이 API는 사용자가 투어 코스를 방문했음을 확인하기 위해 QR 코드를 제출합니다.",
                 "parameters": [
                     {
                         "name": "Authorization",
@@ -193,7 +217,7 @@
                             "properties": {
                                 "qrCode": {
                                     "type": "string",
-                                    "description": "유저가 방문한 투어"
+                                    "description": "방문 확인을 위한 QR 코드"
                                 }
                             },
                             "required": ["qrCode"]
@@ -205,9 +229,9 @@
             }
         },
         "/api/oauth/token": {
-            "get": {
-                "summary": "토큰",
-                "description": "토큰 재발급",
+            "post": {
+                "summary": "토큰 재발급",
+                "description": "이 API는 사용자의 토큰을 재발급합니다. 갱신 토큰이 필요합니다.",
                 "parameters": [
                     {
                         "name": "Authorization",
