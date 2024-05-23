@@ -3,7 +3,7 @@ import { refreshToken } from '../controllers/tokenController.js';
 
 const tokenRouter = express.Router();
 
-tokenRouter.get('/token', refreshToken);
+tokenRouter.post('/token', refreshToken);
 
 
 export default tokenRouter;
