@@ -165,4 +165,23 @@ export const profileUpdata = async (req, res) => {
         console.log(err);
         res.status(500).json({ status: 'fail', message: '서버 에러' });
     }
-}
+};
+
+// 로그인된 유저 삭제
+export const deleteUser = async (req, res) => {
+    const user = req.user;
+
+    try {
+        const query = 'DELETE FROM users WHERE user_no = ?';
+        const [result] = await db.execute(query, [user.user_no]);
+
+        if (result.affectedRows > 0) {
+            return res.status(200).json({ status: 'success', message: '유저 DB에서 삭제 완료' });
+        } else {
+            return res.status(404).json({ status: 'fail', message: '삭제 실패: 사용자를 찾을 수 없습니다.' });
+        }
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ status: 'error', message: '서버 에러' });
+    }
+};
