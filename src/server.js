@@ -19,6 +19,8 @@ app.get('/', (req, res) => {
     res.send('하이');
 });
 
+console.log("깃헙액션스 테스트 ")
+
 
 app.listen(PORT, () => {
     console.log(`http://localhost:${PORT}`);
