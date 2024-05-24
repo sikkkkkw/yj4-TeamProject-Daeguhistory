@@ -34,7 +34,7 @@ export const refreshToken = async (req, res) => {
         const queryUpdateRefreshToken = 'UPDATE refresh_tokens SET token = ? WHERE user_no = ?';
         await db.execute(queryUpdateRefreshToken, [newRefreshToken, decoded.no]);
 
-        res.status(200).json({ status: 'success', accessToken: newAccessToken, refreshToken: newRefreshToken });
+        res.status(200).json({ status: 'success',message: '토큰 재발급', accessToken: newAccessToken, refreshToken: newRefreshToken });
     } catch (err) {
         if (err.name === 'TokenExpiredError') {
             return res.status(401).json({ status: 'fail', message: '리프레시 토큰이 만료되었습니다.' });
