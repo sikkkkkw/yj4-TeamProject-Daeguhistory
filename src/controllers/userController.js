@@ -82,7 +82,7 @@ export const registerUser = async (req, res) => {
             return res.status(409).json({ status: 'fail', message: '중복된 이메일 입니다.' });
         }
 
-        const userProfilePath = '/assets/profile.jpg';
+        const userProfilePath = '/assets/profile.png';
 
         const queryRegister =
             'INSERT INTO users(user_no, user_email, user_password, user_name, user_phone,user_profile, user_socialtype) VALUES (?,?,?,?,?,?,?)';
