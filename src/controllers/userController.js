@@ -28,7 +28,6 @@ export const loginUser = async (req, res) => {
         const refreshToken = jwt.sign({ no: result.user_no }, process.env.JWT_REFRESH_SECRET_KEY, {
             expiresIn: process.env.JWT_REFRESH_EXPIRE,
         });
-
         // 리프레시 토큰이 이미 존재하는지 확인
         const queryCheckRefreshToken = 'SELECT * FROM refresh_tokens WHERE user_no = ?';
         const resultCheckRefreshToken = await db.execute(queryCheckRefreshToken, [result.user_no]).then((result) => result[0][0]);
@@ -83,11 +82,13 @@ export const registerUser = async (req, res) => {
             return res.status(409).json({ status: 'fail', message: '중복된 이메일 입니다.' });
         }
 
-        const queryRegister =
-            'INSERT INTO users(user_no, user_email, user_password, user_name, user_phone, user_socialtype) VALUES (?,?,?,?,?,?)';
-        await db.execute(queryRegister, [user_no, email, encryptPassword, name, phone, 'normal']);
+        const userProfilePath = '/assets/profile.jpg';
 
-        const user = { user_no };
+        const queryRegister =
+            'INSERT INTO users(user_no, user_email, user_password, user_name, user_phone,user_profile, user_socialtype) VALUES (?,?,?,?,?,?,?)';
+        await db.execute(queryRegister, [user_no, email, encryptPassword, name, phone, userProfilePath, 'normal']);
+
+        const user = {no: user_no };
 
         // 액세스 토큰 생성
         const accessToken = jwt.sign(user, process.env.JWT_SECRET_KEY, {
@@ -115,7 +116,7 @@ export const getprofileUser = async (req, res)=>{
         const user = req.user;
 
     // 사용자 정보 조회
-    const query = 'SELECT user_email, user_name, user_phone FROM users WHERE user_no = ?';
+    const query = 'SELECT user_email, user_name, user_phone,user_profile FROM users WHERE user_no = ?';
     const userInfo = await db.execute(query, [user.user_no]).then(result => result[0][0]);
 
     if (!userInfo) {
