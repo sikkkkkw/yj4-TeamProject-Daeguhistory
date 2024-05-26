@@ -6,7 +6,7 @@ export const getCourses = async (req, res) => {
     const { course_tour } = req.query;
     try {
         const query = `
-        SELECT c.course_name, c.course_latitude, c.course_longitude, IF(uc.user_courses_no IS NOT NULL, 1, 0) AS visited
+        SELECT c.course_name, c.course_latitude, c.course_longitude, c.course_image, IF(uc.user_courses_no IS NOT NULL, 1, 0) AS visited
             FROM course c 
             LEFT JOIN users_course uc ON c.course_no = uc.course_no AND uc.user_no = ? WHERE c.course_tour = ?
         `;
