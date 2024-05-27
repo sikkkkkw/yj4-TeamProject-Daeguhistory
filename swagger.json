@@ -4,7 +4,7 @@
         "title": "DAEGU HISTORY API",
         "version": "1.0.0"
     },
-    "host": "https://port-0-yj4-teamproject-daeguhistory-rccln2llw8jnbjk.sel5.cloudtype.app/",
+    "host": "port-0-yj4-teamproject-daeguhistory-rccln2llw8jnbjk.sel5.cloudtype.app/",
     "schemes": ["https"],
     "paths": {
         "/api/user/login": {
