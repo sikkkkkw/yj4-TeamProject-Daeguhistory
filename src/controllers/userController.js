@@ -66,7 +66,7 @@ const isValidEmail = (email) => {
 
 export const registerUser = async (req, res) => {
     try {
-        const { email, password, name, phone } = req.body;
+        const { email, password, name } = req.body;
         const user_no = uuidv4();
 
         // 이메일 유효성 검사
@@ -86,7 +86,7 @@ export const registerUser = async (req, res) => {
 
         const queryRegister =
             'INSERT INTO users(user_no, user_email, user_password, user_name,user_profile, user_socialtype) VALUES (?,?,?,?,?,?,?)';
-        await db.execute(queryRegister, [user_no, email, encryptPassword, name, phone, userProfilePath, 'normal']);
+        await db.execute(queryRegister, [user_no, email, encryptPassword, name, userProfilePath, 'normal']);
 
         const user = {no: user_no };
 
@@ -135,7 +135,7 @@ export const getprofileUser = async (req, res)=>{
 export const profileUpdata = async (req, res) => {
     try {
         const user = req.user;
-        const { email, name, phone } = req.body;
+        const { email, name} = req.body;
         
 
         // 이메일 유효성 검사
@@ -157,7 +157,7 @@ export const profileUpdata = async (req, res) => {
         const newName = name || user.user_name;
 
         const userUpdate = 'UPDATE users SET user_email = ?, user_name = ?, WHERE user_no = ?';
-        await db.execute(userUpdate, [newEmail, newName, newPhone, user.user_no]);
+        await db.execute(userUpdate, [newEmail, newName, user.user_no]);
         
         res.status(200).json({ status: 'success', message: '프로필 업데이트 성공', data: { email: newEmail, name: newName } });
         
