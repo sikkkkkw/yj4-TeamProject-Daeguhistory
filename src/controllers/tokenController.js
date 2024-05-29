@@ -39,7 +39,7 @@ export const refreshToken = async (req, res) => {
         if (err.name === 'TokenExpiredError') {
             return res.status(401).json({ status: 'fail', message: '리프레시 토큰이 만료되었습니다.' });
         }
-        console.log(err);
-        res.status(500).json({ status: 'fail', message: '서버 에러' });
+        console.error("Error in refreshToken: ", err);  // 에러 로그 추가
+        res.status(500).json({ status: 'fail', message: '서버 에러: ' + err.message });  
     }
 };

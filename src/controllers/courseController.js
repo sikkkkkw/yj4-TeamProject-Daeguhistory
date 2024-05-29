@@ -14,7 +14,8 @@ export const getCourses = async (req, res) => {
         
         return res.status(200).json({ status: 'success', message: '유저 방문 코스 리스트', data: courses });
     } catch (err) {
-        res.status(500).json({ status: 'fail', message: '서버 에러'});
+        console.error("Error in CoursesList: ", err);  // 에러 로그 추가
+        res.status(500).json({ status: 'fail', message: '서버 에러: ' + err.message });
     }
 };
 
@@ -33,7 +34,8 @@ export const getCourseDeatil = async (req, res) => {
         console.log(courseDetail);
         return res.status(200).json({ status: 'success', message: '유저 방문 코스 리스트', data: courseDetail });
     } catch(err) {
-
+        console.error("Error in CoursesDeatil: ", err);  // 에러 로그 추가
+        res.status(500).json({ status: 'fail', message: '서버 에러: ' + err.message });
     }
 }
 
@@ -63,6 +65,7 @@ export const qrStamp = async (req, res)=>{
 
 
     } catch (err) {
-        res.status(500).json({ status: 'error', message: '서버 에러' });
+        console.error("Error in CoursesQR: ", err);  // 에러 로그 추가
+        res.status(500).json({ status: 'fail', message: '서버 에러: ' + err.message });
     }
 }

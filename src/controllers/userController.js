@@ -51,8 +51,8 @@ export const loginUser = async (req, res) => {
             },
         });
     } catch (err) {
-        console.log(err);
-        res.status(500).json({ status: 'fail', message: '서버 에러' });
+        console.error("Error in Login: ", err);  // 에러 로그 추가
+        res.status(500).json({ status: 'fail', message: '서버 에러: ' + err.message });
     }
 };
 
@@ -105,8 +105,8 @@ export const registerUser = async (req, res) => {
 
         res.status(201).json({ status: 'success', message: '회원가입 완료', data: {accessToken, refreshToken} });
     } catch (err) {
-        console.log(err);
-        res.status(500).json({ status: 'fail', message: '서버 에러' });
+        console.error("Error in Register: ", err);  // 에러 로그 추가
+        res.status(500).json({ status: 'fail', message: '서버 에러: ' + err.message });
     }
 };
 
@@ -125,8 +125,8 @@ export const getprofileUser = async (req, res)=>{
         res.status(200).json({ status: 'success', message: '프로필 불러오기', userInfo });
     }
     }catch (err) {
-        console.log(err);
-        res.status(500).json({ status: 'fail', message: '서버 에러' });
+        console.error("Error in Profile: ", err);  // 에러 로그 추가
+        res.status(500).json({ status: 'fail', message: '서버 에러: ' + err.message });
     }
     
 }
@@ -163,8 +163,8 @@ export const profileUpdata = async (req, res) => {
         res.status(200).json({ status: 'success', message: '프로필 업데이트 성공', data: { email: newEmail, name: newName, phone: newPhone } });
         
     } catch (err) {
-        console.log(err);
-        res.status(500).json({ status: 'fail', message: '서버 에러' });
+        console.error("Error in Updata: ", err);  // 에러 로그 추가
+        res.status(500).json({ status: 'fail', message: '서버 에러: ' + err.message });
     }
 };
 
@@ -182,7 +182,7 @@ export const deleteUser = async (req, res) => {
             return res.status(404).json({ status: 'fail', message: '삭제 실패: 사용자를 찾을 수 없습니다.' });
         }
     } catch (err) {
-        console.error(err);
-        return res.status(500).json({ status: 'error', message: '서버 에러' });
+        console.error("Error in Delete: ", err);  // 에러 로그 추가
+        res.status(500).json({ status: 'fail', message: '서버 에러: ' + err.message });
     }
 };
