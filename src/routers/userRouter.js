@@ -8,7 +8,7 @@ userRouter.post('/login', loginUser);
 
 userRouter.post('/register', registerUser);
 
-urserRoute.post('/email-check', emailCheck);
+userRouter.post('/email-check', emailCheck);
 
 userRouter.put('/update',authenticationRequired ,profileUpdata);
 
