@@ -38,7 +38,7 @@
         "/api/user/register": {
             "post": {
                 "summary": "사용자 회원가입",
-                "description": "이 API는 새로운 사용자를 등록합니다. 사용자는 이메일, 비밀번호, 이름, 전화번호를 제공해야 합니다.",
+                "description": "이 API는 새로운 사용자를 등록합니다. 사용자는 이메일, 비밀번호, 이름를 제공해야 합니다.",
                 "parameters": [
                     {
                         "in": "body",
@@ -58,13 +58,9 @@
                                 "name": {
                                     "type": "string",
                                     "description": "회원가입에 사용할 이름"
-                                },
-                                "phone": {
-                                    "type": "string",
-                                    "description": "회원가입에 사용할 전화번호"
                                 }
                             },
-                            "required": ["email", "password", "name", "phone"]
+                            "required": ["email", "password", "name"]
                         }
                     }
                 ],
@@ -74,7 +70,7 @@
         "/api/user/update": {
             "put": {
                 "summary": "사용자 정보 수정",
-                "description": "이 API는 로그인된 사용자의 정보를 수정합니다. 수정 가능한 정보는 이메일, 이름, 전화번호입니다.",
+                "description": "이 API는 로그인된 사용자의 정보를 수정합니다. 수정 가능한 정보는 이메일, 이름입니다.",
                 "parameters": [
                     {
                         "name": "Authorization",
@@ -97,13 +93,9 @@
                                 "name": {
                                     "type": "string",
                                     "description": "수정할 이름"
-                                },
-                                "phone": {
-                                    "type": "string",
-                                    "description": "수정할 전화번호"
                                 }
                             },
-                            "required": ["email", "name", "phone"]
+                            "required": ["email", "name"]
                         }
                     }
                 ],
