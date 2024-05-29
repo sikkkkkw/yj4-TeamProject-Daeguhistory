@@ -4,8 +4,8 @@
         "title": "DAEGU HISTORY API",
         "version": "1.0.0"
     },
-    "host": "localhost:8080",
-    "schemes": ["http"],
+    "host": "port-0-yj4-teamproject-daeguhistory-rccln2llw8jnbjk.sel5.cloudtype.app/",
+    "schemes": ["https"],
     "paths": {
         "/api/user/login": {
             "post": {
@@ -32,8 +32,7 @@
                         }
                     }
                 ],
-                "responses": {
-                }
+                "responses": {}
             }
         },
         "/api/user/register": {
@@ -69,9 +68,7 @@
                         }
                     }
                 ],
-                "responses": {
-
-                }
+                "responses": {}
             }
         },
         "/api/user/update": {
@@ -110,8 +107,7 @@
                         }
                     }
                 ],
-                "responses": {
-                }
+                "responses": {}
             }
         },
         "/api/user/delete": {
@@ -127,8 +123,7 @@
                         "description": "Bearer {accessToken}"
                     }
                 ],
-                "responses": {
-                }
+                "responses": {}
             }
         },
         "/api/user/profile": {
@@ -144,8 +139,7 @@
                         "description": "Bearer {accessToken}"
                     }
                 ],
-                "responses": {
-                }
+                "responses": {}
             }
         },
         "/api/course/list": {
@@ -168,8 +162,7 @@
                         "description": "사용자가 방문할 투어"
                     }
                 ],
-                "responses": {
-                }
+                "responses": {}
             }
         },
         "/api/course/deatil": {
@@ -192,8 +185,7 @@
                         "description": "사용자가 방문한 투어의 이름"
                     }
                 ],
-                "responses": {
-                }
+                "responses": {}
             }
         },
         "/api/course/qr": {
@@ -224,8 +216,7 @@
                         }
                     }
                 ],
-                "responses": {
-                }
+                "responses": {}
             }
         },
         "/api/oauth/token": {
@@ -241,8 +232,7 @@
                         "description": "Bearer {refreshToken}"
                     }
                 ],
-                "responses": {
-                }
+                "responses": {}
             }
         }
     }
