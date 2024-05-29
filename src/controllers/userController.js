@@ -102,7 +102,7 @@ export const registerUser = async (req, res) => {
         const userProfilePath = '/assets/profile.png';
 
         const queryRegister =
-            'INSERT INTO users(user_no, user_email, user_password, user_name,user_profile, user_socialtype) VALUES (?,?,?,?,?,?,?)';
+            'INSERT INTO users(user_no, user_email, user_password, user_name,user_profile, user_socialtype) VALUES (?,?,?,?,?,?)';
         await db.execute(queryRegister, [user_no, email, encryptPassword, name, userProfilePath, 'normal']);
 
         const user = {no: user_no };
