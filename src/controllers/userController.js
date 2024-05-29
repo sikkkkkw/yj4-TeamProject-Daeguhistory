@@ -85,7 +85,7 @@ export const registerUser = async (req, res) => {
         const userProfilePath = '/assets/profile.png';
 
         const queryRegister =
-            'INSERT INTO users(user_no, user_email, user_password, user_name, user_phone,user_profile, user_socialtype) VALUES (?,?,?,?,?,?,?)';
+            'INSERT INTO users(user_no, user_email, user_password, user_name,user_profile, user_socialtype) VALUES (?,?,?,?,?,?,?)';
         await db.execute(queryRegister, [user_no, email, encryptPassword, name, phone, userProfilePath, 'normal']);
 
         const user = {no: user_no };
@@ -116,7 +116,7 @@ export const getprofileUser = async (req, res)=>{
         const user = req.user;
 
     // 사용자 정보 조회
-    const query = 'SELECT user_email, user_name, user_phone,user_profile FROM users WHERE user_no = ?';
+    const query = 'SELECT user_email, user_name,user_profile FROM users WHERE user_no = ?';
     const userInfo = await db.execute(query, [user.user_no]).then(result => result[0][0]);
 
     if (!userInfo) {
@@ -155,12 +155,11 @@ export const profileUpdata = async (req, res) => {
         // 업데이트할 값이 없으면 기존 값 사용
         const newEmail = email || user.user_email;
         const newName = name || user.user_name;
-        const newPhone = phone || user.user_phone;
 
-        const userUpdate = 'UPDATE users SET user_email = ?, user_name = ?, user_phone = ? WHERE user_no = ?';
+        const userUpdate = 'UPDATE users SET user_email = ?, user_name = ?, WHERE user_no = ?';
         await db.execute(userUpdate, [newEmail, newName, newPhone, user.user_no]);
         
-        res.status(200).json({ status: 'success', message: '프로필 업데이트 성공', data: { email: newEmail, name: newName, phone: newPhone } });
+        res.status(200).json({ status: 'success', message: '프로필 업데이트 성공', data: { email: newEmail, name: newName } });
         
     } catch (err) {
         console.error("Error in Updata: ", err);  // 에러 로그 추가
