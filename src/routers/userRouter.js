@@ -1,5 +1,5 @@
 import express from 'express';
-import {  deleteUser, getprofileUser, loginUser,   profileUpdata,   registerUser } from '../controllers/userController.js';
+import {  deleteUser, emailCheck, getprofileUser, loginUser,   profileUpdata,   registerUser } from '../controllers/userController.js';
 import { authenticationRequired } from '../middleware/auth.js';
 
 const userRouter = express.Router();
@@ -7,6 +7,8 @@ const userRouter = express.Router();
 userRouter.post('/login', loginUser);
 
 userRouter.post('/register', registerUser);
+
+urserRoute.post('/email-check', emailCheck);
 
 userRouter.put('/update',authenticationRequired ,profileUpdata);
 

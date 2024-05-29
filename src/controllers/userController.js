@@ -64,6 +64,23 @@ const isValidEmail = (email) => {
     return emailRegex.test(email);
 };
 
+export const emailCheck = async (req, res) => {
+  try {
+    const {email} = req.body;
+
+    const queryCheckEmail = 'SELECT user_email FROM users WHERE user_email = ?';
+        const resultCheckEmail = await db.execute(queryCheckEmail, [email]).then((result) => result[0][0]);
+        if (resultCheckEmail) {
+            return res.status(409).json({ status: 'fail', message: '중복된 이메일 입니다.' });
+        } else {
+            return res.status(200).json({status: "success", message: "사용가능한 이메일입니다."});
+        }
+  } catch(err) {
+    console.error("Error in Register: ", err);  // 에러 로그 추가
+    res.status(500).json({ status: 'fail', message: '서버 에러: ' + err.message });
+  }
+}
+
 export const registerUser = async (req, res) => {
     try {
         const { email, password, name } = req.body;
