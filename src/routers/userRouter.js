@@ -16,4 +16,5 @@ userRouter.get('/profile',authenticationRequired ,getprofileUser);
 
 userRouter.delete('/delete',authenticationRequired ,deleteUser);
 
+
 export default userRouter;
